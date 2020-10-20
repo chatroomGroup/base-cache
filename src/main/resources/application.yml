@@ -1,0 +1,47 @@
+
+server:
+  port: 9040
+
+app:
+  name: base-cache
+  error-log:
+    collection: error_log
+    expireDay: 30
+
+redis:
+  host: localhost
+  port: 6380
+  password:
+  database: 4
+  max-active: 200
+  max-wait: -1
+  max-idle: 8
+  timeout: 0
+  connectionPoolSize: 400
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+
+datasources:
+  statu: 1
+  instants:
+    instant-1:
+      url: jdbc:mysql://localhost:3306/users?autoReconnect=true&failOverReadOnly=false&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&useOldAliasMetadataBehavior=true
+      username: root
+      password: 123
+      driverClassName: com.mysql.jdbc.Driver
+      initialSize: 5
+      maxActive: 100
+      maxIdle: 10
+      minIdle: 5
+      type: com.alibaba.druid.pool.DruidDataSource
+      isDefault: true
+
+jap:
+  enable: true

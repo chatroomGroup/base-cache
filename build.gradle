@@ -1,0 +1,66 @@
+plugins {
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+}
+
+allprojects {
+    apply plugin: 'groovy'
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+
+    group = 'com.cai'
+    version = '0.0.0.1-SNAPSHOT'
+    sourceCompatibility = '1.8'
+
+    ext {
+        SPRING_BOOT_VERSION = '2.2.6.RELEASE'
+    }
+
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+        maven { url "http://47.102.222.185:30021/repository/maven-public" }
+        maven { url "http://repo.spring.io/libs-release" }
+    }
+
+    dependencies {
+        compile fileTree(dir: 'libs')
+        compile "org.springframework.boot:spring-boot-starter:$SPRING_BOOT_VERSION"
+        compile("org.springframework.boot:spring-boot-starter-tomcat:$SPRING_BOOT_VERSION")
+        testCompile("org.springframework.boot:spring-boot-starter-test:$SPRING_BOOT_VERSION") {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+//        compile("org.springframework.boot:spring-boot-starter-actuator:$SPRING_BOOT_VERSION")
+        compile 'org.codehaus.groovy:groovy-all:2.3.3'
+        compile("org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION")
+        testCompile("org.springframework.boot:spring-boot-starter-test:$SPRING_BOOT_VERSION")
+        testCompile 'junit:junit:4.12'
+        compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: "${SPRING_BOOT_VERSION}"
+        compile group: 'org.gradle', name: 'gradle-core', version: '3.5'
+        compileOnly group: 'com.cai', name: 'base-redis', version: '1.2.0-SNAPSHOT', changing: true
+        compileOnly group: 'com.cai', name: 'base-general', version: '0.0.8.9-SNAPSHOT', changing: true
+        compileOnly group: 'com.cai', name: 'base-jdbc', version: '2.0.2-SNAPSHOT', changing: true
+
+        compile group: 'org.apache.commons', name: 'commons-pool2', version: '2.7.0'
+    }
+
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+    jar.enabled = true
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "${nexusUrl}/repository/maven-releases/") {
+                authentication(userName: nexusUsername, password: nexusPassword)
+            }
+            snapshotRepository(url: "${nexusUrl}/repository/maven-snapshots/") {
+                authentication(userName: nexusUsername, password: nexusPassword)
+            }
+        }
+    }
+}

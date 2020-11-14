@@ -3,6 +3,7 @@ package com.cai.cache.aop
 import com.cai.cache.annotation.GetCache
 import com.cai.cache.util.AopCacheUtils
 import com.cai.general.core.BaseEntity
+import com.cai.general.core.BaseMapper
 import com.cai.redis.RedisService
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
@@ -11,7 +12,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
-import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Component
 
 import static com.cai.cache.util.AopCacheUtils.*
@@ -41,9 +41,9 @@ class GetCacheAop {
                 cacheObj = getCache(cacheValue.targetClass(), it, pjp.getSignature().getDeclaringTypeName(), pjp.getSignature().getName(), pjp.getArgs())
                 if (!cacheObj || !cacheObj.id || !cacheObj.lastUpdated) return null
                 cacheEntity = cacheObj as BaseEntity
-                if (!cacheEntity || !cacheEntity.DEFINE || !cacheEntity.DEFINE.repository ||!cacheEntity.getEntityId()) return null
-                JpaRepository repository = ac.getBean(cacheEntity.DEFINE.repository as Class)
-                entity = repository.getOne(cacheEntity.getEntityId()) as BaseEntity
+                if (!cacheEntity || !cacheEntity.DEFINE || !cacheEntity.DEFINE.mapper ||!cacheEntity.getEntityId()) return null
+                BaseMapper mapper = ac.getBean(cacheEntity.DEFINE.mapper as Class)
+                entity = mapper.selectById(cacheEntity.getEntityId() as Long) as BaseEntity
                 if (entity.lastUpdated == cacheObj.lastUpdated){
                     return cacheObj
                 } else{

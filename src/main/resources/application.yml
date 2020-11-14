@@ -19,14 +19,6 @@ redis:
   timeout: 0
   connectionPoolSize: 400
 
-spring:
-  main:
-    allow-bean-definition-overriding: true
-  jpa:
-    hibernate:
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-
 
 datasources:
   statu: 1
@@ -42,6 +34,3 @@ datasources:
       minIdle: 5
       type: com.alibaba.druid.pool.DruidDataSource
       isDefault: true
-
-jap:
-  enable: true

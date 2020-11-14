@@ -8,7 +8,7 @@ allprojects {
     apply plugin: 'maven'
 
     group = 'com.cai'
-    version = '0.0.0.1-SNAPSHOT'
+    version = '0.0.0.15-SNAPSHOT'
     sourceCompatibility = '1.8'
 
     ext {
@@ -36,8 +36,8 @@ allprojects {
         compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: "${SPRING_BOOT_VERSION}"
         compile group: 'org.gradle', name: 'gradle-core', version: '3.5'
         compileOnly group: 'com.cai', name: 'base-redis', version: '1.2.0-SNAPSHOT', changing: true
-        compileOnly group: 'com.cai', name: 'base-general', version: '0.0.8.9-SNAPSHOT', changing: true
-        compileOnly group: 'com.cai', name: 'base-jdbc', version: '2.0.2-SNAPSHOT', changing: true
+        compileOnly group: 'com.cai', name: 'base-general', version: '0.0.11.15-SNAPSHOT', changing: true
+        compileOnly group: 'com.cai', name: 'base-jdbc', version: '3.0.4-SNAPSHOT', changing: true
 
         compile group: 'org.apache.commons', name: 'commons-pool2', version: '2.7.0'
     }
